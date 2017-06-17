@@ -8,3 +8,37 @@ var map = new mapboxgl.Map({
 map.addControl(new MapboxGeocoder({
     accessToken: mapboxgl.accessToken
 }));
+
+map.on('load', function () {
+	bounds = map.getBounds()
+	ne = [bounds._ne.lat,bounds._ne.lng]
+	sw = [bounds._sw.lat,bounds._sw.lng]
+	bbox = 'bbox='+sw[0]+","+sw[1]+","+ne[0]+","+ne[1];
+	console.log("load data for "+bbox);
+	$.ajax({url: 'https://geodata.nationaalgeoregister.nl/bag/wfs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=bag:pand&SRSNAME=EPSG:4326&'+bbox+'&outputFormat=json'
+	, success: function(result){
+		console.log(result);
+		// try {
+		// 	map.removeLayer('bag');
+		// } catch(err) {
+		// 	console.log(err)
+		// }
+
+		geojson = {
+		'type': 'geojson',
+		'data': result
+		}
+		console.log(geojson);
+		map.addSource ( "bag_pand", geojson )
+
+		map.addLayer({
+        "id": "bag",
+        "type": "fill",
+        "source": "bag_pand",
+				'paint': {
+						'fill-color': '#088',
+						'fill-opacity': 0.8
+				}
+    });
+  }});
+});
