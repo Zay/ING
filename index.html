@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Tensing">
 
     <title>ING Spatial Banking</title>
 
@@ -17,8 +17,6 @@
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -30,7 +28,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
+    <!-- Mapbox -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
@@ -65,10 +63,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Form</a>
+                        <a id="formPage" href="javascript:void(0)"><i class="fa fa-fw fa-dashboard"></i> Form</a>
                     </li>
                     <li class="active">
-                        <a href="Map.html"><i class="fa fa-fw fa-dashboard"></i> Map</a>
+                        <a id="mapPage" href="javascript:void(0)"><i class="fa fa-fw fa-dashboard"></i> Map</a>
                     </li>
 
                 </ul>
@@ -138,7 +136,7 @@
                               <input class="form-control">
                           </div>
 
-                          <button type="submit" class="btn btn-default">Submit Button</button>
+                          <button id="submit" type="submit" class="btn btn-default" onsubmit="submitForm()">Submit Button</button>
                           <button type="reset" class="btn btn-default">Reset Button</button>
 
                       </form>
@@ -167,7 +165,8 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js'></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css' type='text/css' />
 
-    <script src="map.js"></script>
+    <!-- Load pages -->
+    <script src='js/loadPages.js'></script>
 
 </body>
 
