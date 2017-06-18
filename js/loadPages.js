@@ -1,14 +1,16 @@
-formPage = '<!-- Page Heading --><div class="row"> <div class="col-lg-12"> <!-- <h1 class="page-header"> Form </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Form </li> </ol> </div> </div> <!-- /.row --> <div class="row"> <div class="col-lg-12"> <form role="form"> <div class="form-group"> <label>Customer</label> <input class="form-control"> </div> <div class="form-group"> <label>KVK nummer</label> <input class="form-control"> </div> <div class="form-group"> <label>Adres</label> <input class="form-control"> </div> <div class="form-group"> <label>Postcode</label> <input class="form-control"> </div> <div class="form-group"> <label>Gemeente</label> <input class="form-control"> </div> <div class="form-group"> <label>Aangevraagde lening</label> <input class="form-control"> </div> <div class="form-group"> <label>Type lening</label> <input class="form-control"></div><button type="submit" class="btn btn-default">Submit Button</button> <button type="reset" class="btn btn-default">Reset Button</button> </form> </div> </div> <!-- /.row -->'
+// HTML template strings
+formPage = '<!-- Page Heading --><div class="row"> <div class="col-lg-12"> <!-- <h1 class="page-header"> Form </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Form </li> </ol> </div> </div> <!-- /.row --> <div class="row"> <div class="col-lg-12"> <form role="form" name="formING" onsubmit="submitForm()"> <div class="form-group"> <label>Customer</label> <input class="form-control"> </div> <div class="form-group"> <label>KVK nummer</label> <input class="form-control"> </div> <div class="form-group"> <label>Adres</label> <input class="form-control"> </div> <div class="form-group"> <label>Postcode</label> <input class="form-control"> </div> <div class="form-group"> <label>Gemeente</label> <input class="form-control"> </div> <div class="form-group"> <label>Aangevraagde lening</label> <input class="form-control"> </div> <div class="form-group"> <label>Type lening</label> <input class="form-control"></div><button type="submit" class="btn btn-default">Submit Button</button> <button type="reset" class="btn btn-default">Reset Button</button> </form> </div> </div> <!-- /.row -->'
 
 mapPage = '<!-- <h1 class="page-header"> Map </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Map </li> </ol> <!-- Page Heading --> <div class="row"> <div class="col-lg-12"> <nav id="menu"></nav> <div id="map"></div> </div> </div> <!-- /.row -->'
 
+
+// Load HTML template strings
+$( document ).ready(function(){
+  $(".container-fluid").html(formPage);
+});
+
 $("#formPage").click(function(){
   $(".container-fluid").html(formPage);
-  });
-
-$("#submit").click(function(){
-  $(".container-fluid").html(mapPage);
-  loadMap();
 });
 
 $("#mapPage").click(function(){
@@ -18,8 +20,12 @@ $("#mapPage").click(function(){
 
 function submitForm() {
   console.log("submit form");
+  $(".container-fluid").html(mapPage);
+  loadMap();
 }
 
+
+// Function to load map and add data
 function loadMap() {
   mapboxgl.accessToken = 'pk.eyJ1IjoiaXZvMTEyMzUiLCJhIjoieV82bFVfNCJ9.G8mrfJOA07edDDj6Bep2bQ';
   var map = new mapboxgl.Map({
