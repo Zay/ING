@@ -5,15 +5,16 @@ mapPage = '<!-- <h1 class="page-header"> Map </h1> --> <ol class="breadcrumb"> <
 
 // Load HTML template strings
 $( document ).ready(function(){
-  $(".container-fluid").html(formPage);
+  $("#canvas").append(formPage);
+  // $(document.body).append(formPage);
 });
 
 $("#formPage").click(function(){
-  $(".container-fluid").html(formPage);
+  $("#canvas").html(formPage);
 });
 
 $("#mapPage").click(function(){
-  $(".container-fluid").html(mapPage);
+  $("#canvas").html(mapPage);
   loadMap();
   window.map.on('load', function () {
     loadData();
@@ -23,17 +24,18 @@ $("#mapPage").click(function(){
 
 function submitForm() {
   // alert("submit form");
-  var form = $("#formING");
+  // var form = $("#formING");
   // var address = form.elements[2].value;
+  // alert(address);
   // var zipcode = form.elements[3].value;
   // var municipality = form.elements[4].value;
-  // var fullAddress = address + ',' + zipcode + ',' + municipality;
-  // var latlng = geocodeAddress(fullAddress);
+  // var fullAddress = address + ',+' + zipcode + ',+' + municipality;
+  // var latlng = geocodeAddress(fullAddress.replace(/\s+/g, '+'));
   $(".container-fluid").html(mapPage);
   loadMap();
-  // window.map.on('load', function () {
-  //   loadData();
-  // });
+  window.map.on('load', function () {
+    loadData();
+  });
 
 }
 
@@ -52,9 +54,8 @@ function loadMap(lat=4.951721, lng=52.314182) {
 }
 
 function geocodeAddress(Address){
-  var geocodeURL = 'http://nominatim.openstreetmap.org/format=json&addressdetails=1&q='+Address+'&format=json&limit=1';
+  var geocodeURL = 'http://nominatim.openstreetmap.org/search?q='+Address+'&polygon=1&addressdetails=1&format=json&limit=1';
   console.log(geocodeURL);
-
   $.ajax({
     url: geocodeURL,
     success: function(result){
@@ -81,7 +82,7 @@ function loadData() {
 
     var buurt_url = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2016/wfs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=wijkenbuurten2016:cbs_buurten_2016&SRSNAME=EPSG:4326&'+bboxReverse+',EPSG:4326&outputFormat=json';
     console.log(buurt_url);
-    getWFS(buurt_url, "CBS Buurten", "#088", 0.4);
+    getWFS(buurt_url, "CBS Buurten", "#088", 0.6);
 
     var width = 500;
     var height = Math.round(width * ratio);
