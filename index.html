@@ -33,9 +33,14 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
     <style>
-        .navbar-inverse, .navbar-nav, .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {background-color: #FFF;}
+        .navbar-inverse, .navbar-nav, .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {background-color: #FFF;border: 0px; }
+         .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus {color: #000;}
         #logo {max-height: 150%;}
-        #map { height: 90vh; width:100%; }
+        #map { height: 45vh; width:100%; margin-bottom: 2vh;}
+        .panel-body,.flot-chart {height: 35vh;}
+        .flot-chart-content {height: 32vh;}
+        #bagTable {overflow-y: auto;}
+        .navbar-inverse .navbar-toggle .icon-bar {background-color: #555;}
     </style>
 
 </head>
@@ -99,6 +104,13 @@
 
     <!-- Load pages -->
     <script src='js/loadPages.js'></script>
+
+
+    <!-- Chart -->
+    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+
 
 </body>
 
