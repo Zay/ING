@@ -1,12 +1,11 @@
 // HTML template strings
-formPage = '<!-- Page Heading --><div class="row"> <div class="col-lg-12"> <!-- <h1 class="page-header"> Form </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Form </li> </ol> </div> </div> <!-- /.row --> <div class="row"> <div class="col-lg-12"> <form role="form" id="formING" name="formING" onsubmit="submitForm()"> <div class="form-group"> <label>Customer</label> <input class="form-control"> </div> <div class="form-group"> <label>KVK nummer</label> <input class="form-control"> </div> <div class="form-group"> <label>Adres</label> <input class="form-control"> </div> <div class="form-group"> <label>Postcode</label> <input class="form-control"> </div> <div class="form-group"> <label>Gemeente</label> <input class="form-control"> </div> <div class="form-group"> <label>Aangevraagde lening</label> <input class="form-control"> </div> <div class="form-group"> <label>Type lening</label> <input class="form-control"></div><button type="submit" class="btn btn-default">Submit Button</button> <button type="reset" class="btn btn-default">Reset Button</button> </form> </div> </div> <!-- /.row -->'
+formPage = '<!-- Page Heading --><div class="row"> <div class="col-lg-12"> <!-- <h1 class="page-header"> Form </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Form </li> </ol> </div> </div> <!-- /.row --> <div class="row"> <div class="col-lg-12"> <form role="form" id="formING" name="formING" onsubmit="submitForm()"> <div class="form-group"> <label>Customer</label> <input id="customer" class="form-control"> </div> <div class="form-group"> <label>KVK nummer</label> <input id="kvk" class="form-control"> </div> <div class="form-group"> <label>Adres</label> <input id="address" class="form-control"> </div> <div class="form-group"> <label>Postcode</label> <input id="postcode" class="form-control"> </div> <div class="form-group"> <label>Gemeente</label> <input id="gemeente" class="form-control"> </div> <div class="form-group"> <label>Aangevraagde lening</label> <input id="loan" class="form-control"> </div> <div class="form-group"> <label>Type lening</label> <input input="type" class="form-control"></div><button type="submit" class="btn btn-default">Submit Button</button> <button type="reset" class="btn btn-default">Reset Button</button> </form> </div> </div> <!-- /.row -->'
 
 mapPage = '<!-- <h1 class="page-header"> Map </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Map </li> </ol> <!-- Page Heading --> <div class="row"> <div class="col-lg-12"> <nav id="menu"></nav> <div id="map"></div> </div> </div> <!-- /.row --><div class="row"><div class="col-lg-4"><div class="panel panel-green"><div class="panel-heading"><h3 class="panel-title" id="leeftijdTitle"><i class="fa fa-long-arrow-right"></i>Leeftijdsverdeling per buurt (%)</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="flot-pie-chart"><center>Klik op een buurt</center></div></div></div></div></div><div class="col-lg-4"><div class="panel panel-yellow"><div class="panel-heading"><h3 class="panel-title" id="bagTitle"><i class="fa fa-long-arrow-right"></i> BAG pand informatie</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="bagTable"><center>Klik op een BAG pand</center></div></div></div></div></div><div class="col-lg-4"><div class="panel panel-primary"><div class="panel-heading"><h3 class="panel-title" id="fmeTitle"><i class="fa fa-long-arrow-right"></i> FME Cloud data</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="fmeContent">Data van Martins FME Cloud komt vrijdag</div></div></div></div></div></div>'
 
 // Load HTML template strings
 $( document ).ready(function(){
-  $("#canvas").append(formPage);
-  // $(document.body).append(formPage);
+  $("#canvas").html(formPage);
 });
 
 $("#formPage").click(function(){
@@ -23,24 +22,27 @@ $("#mapPage").click(function(){
 });
 
 function submitForm() {
-  // alert("submit form");
-  // var form = $("#formING");
-  // var address = form.elements[2].value;
-  // alert(address);
-  // var zipcode = form.elements[3].value;
-  // var municipality = form.elements[4].value;
-  // var fullAddress = address + ',+' + zipcode + ',+' + municipality;
-  // var latlng = geocodeAddress(fullAddress.replace(/\s+/g, '+'));
+  console.log(document.forms["formING"]["customer"].value);
+  window.address = document.forms["formING"]["address"].value;
+  window.zipcode = document.forms["formING"]["postcode"].value;
+  window.municipality = document.forms["formING"]["gemeente"].value;
+  var fullAddress = address + ',+' + zipcode + ',+' + municipality;
+  console.log(fullAddress);
   $(".container-fluid").html(mapPage);
-  loadMap();
-  window.map.on('load', function () {
-    loadData();
-  });
+  var latlng = geocodeAddress(fullAddress);
 
 }
 
 // Function to load map and add data
-function loadMap(lat=4.951721, lng=52.314182) {
+function loadMap(lat, lng) {
+  if (lat === undefined){
+    console.log("lat undefined");
+    lat=4.951721;
+  }
+  if (lng === undefined){
+    console.log("long undefined");
+    lng=52.314182;
+  }
   mapboxgl.accessToken = 'pk.eyJ1IjoiaXZvMTEyMzUiLCJhIjoieV82bFVfNCJ9.G8mrfJOA07edDDj6Bep2bQ';
   window.map = new mapboxgl.Map({
       container: 'map', // container id
@@ -59,9 +61,49 @@ function geocodeAddress(Address){
   $.ajax({
     url: geocodeURL,
     success: function(result){
-  		console.log(result);
+  		console.log(result["0"]);
+      window.lat = result["0"].lat;
+      window.lng = result["0"].lon;
+      loadMap(lng,lat);
+      window.map.on('load', function () {
+        console.log(window.lat+" "+window.lng);
+        loadData();
+        addMarker(window.lat,window.lng, window.address);
+
+      });
     }
   })
+}
+
+function addMarker(lat,long, name) {
+  window.map.addLayer({
+        "id": name,
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [long,lat]
+                    },
+                    "properties": {
+                        "title": name,
+                        "icon": "monument"
+                    }
+                }]
+            }
+        },
+        "layout": {
+            "icon-image": "{icon}-15",
+            "text-field": "{title}",
+            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+            "text-offset": [0, 0.6],
+            "text-anchor": "top"
+        }
+    });
 }
 
 function loadData() {
@@ -190,5 +232,6 @@ function getWFS(wfs_url, name, color, opacity) {
             'fill-outline-color': '#000'
         }
     });
+    window.map.moveLayer(name,window.address);
   }});
 }
