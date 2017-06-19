@@ -1,7 +1,7 @@
 // HTML template strings
 formPage = '<!-- Page Heading --><div class="row"> <div class="col-lg-12"> <!-- <h1 class="page-header"> Form </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Form </li> </ol> </div> </div> <!-- /.row --> <div class="row"> <div class="col-lg-12"> <form role="form" id="formING" name="formING" onsubmit="submitForm()"> <div class="form-group"> <label>Customer</label> <input class="form-control"> </div> <div class="form-group"> <label>KVK nummer</label> <input class="form-control"> </div> <div class="form-group"> <label>Adres</label> <input class="form-control"> </div> <div class="form-group"> <label>Postcode</label> <input class="form-control"> </div> <div class="form-group"> <label>Gemeente</label> <input class="form-control"> </div> <div class="form-group"> <label>Aangevraagde lening</label> <input class="form-control"> </div> <div class="form-group"> <label>Type lening</label> <input class="form-control"></div><button type="submit" class="btn btn-default">Submit Button</button> <button type="reset" class="btn btn-default">Reset Button</button> </form> </div> </div> <!-- /.row -->'
 
-mapPage = '<!-- <h1 class="page-header"> Map </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Map </li> </ol> <!-- Page Heading --> <div class="row"> <div class="col-lg-12"> <nav id="menu"></nav> <div id="map"></div> </div> </div> <!-- /.row --><div class="row"><div class="col-lg-4"><div class="panel panel-green"><div class="panel-heading"><h3 class="panel-title" id="leeftijdTitle"><i class="fa fa-long-arrow-right"></i>Leeftijdsverdeling per buurt (%)</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="flot-pie-chart"></div></div></div></div></div><div class="col-lg-4"><div class="panel panel-yellow"><div class="panel-heading"><h3 class="panel-title" id="bagTitle"><i class="fa fa-long-arrow-right"></i> BAG pand informatie</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="bagTable"></div></div></div></div></div><div class="col-lg-4"><div class="panel panel-primary"><div class="panel-heading"><h3 class="panel-title" id="fmeTitle"><i class="fa fa-long-arrow-right"></i> FME Cloud data</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="fmeContent"></div></div></div></div></div></div>'
+mapPage = '<!-- <h1 class="page-header"> Map </h1> --> <ol class="breadcrumb"> <li> <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a> </li> <li class="active"> <i class="fa fa-edit"></i> Map </li> </ol> <!-- Page Heading --> <div class="row"> <div class="col-lg-12"> <nav id="menu"></nav> <div id="map"></div> </div> </div> <!-- /.row --><div class="row"><div class="col-lg-4"><div class="panel panel-green"><div class="panel-heading"><h3 class="panel-title" id="leeftijdTitle"><i class="fa fa-long-arrow-right"></i>Leeftijdsverdeling per buurt (%)</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="flot-pie-chart"><center>Klik op een buurt</center></div></div></div></div></div><div class="col-lg-4"><div class="panel panel-yellow"><div class="panel-heading"><h3 class="panel-title" id="bagTitle"><i class="fa fa-long-arrow-right"></i> BAG pand informatie</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="bagTable"><center>Klik op een BAG pand</center></div></div></div></div></div><div class="col-lg-4"><div class="panel panel-primary"><div class="panel-heading"><h3 class="panel-title" id="fmeTitle"><i class="fa fa-long-arrow-right"></i> FME Cloud data</h3></div><div class="panel-body"><div class="flot-chart"><div class="flot-chart-content" id="fmeContent">Data van Martins FME Cloud komt vrijdag</div></div></div></div></div></div>'
 
 // Load HTML template strings
 $( document ).ready(function(){
@@ -23,11 +23,7 @@ $("#mapPage").click(function(){
 
 function submitForm() {
   // alert("submit form");
-  // var form = $("#formING").serialize();
-  // console.log("form");
-  // console.log(form);
-  // alert(data);
-  // var form = document.getElementById("formING");
+  var form = $("#formING");
   // var address = form.elements[2].value;
   // var zipcode = form.elements[3].value;
   // var municipality = form.elements[4].value;
@@ -35,9 +31,9 @@ function submitForm() {
   // var latlng = geocodeAddress(fullAddress);
   $(".container-fluid").html(mapPage);
   loadMap();
-  window.map.on('load', function () {
-    loadData();
-  });
+  // window.map.on('load', function () {
+  //   loadData();
+  // });
 
 }
 
@@ -137,7 +133,7 @@ function loadData() {
     window.map.on('click', 'CBS Buurten', function (e) {
       new mapboxgl.Popup()
           .setLngLat(e.lngLat)
-          .setHTML('<table style="width:100%"><tr><th><center><b>'+e.features[0].properties.buurtnaam+'</b></center></th></tr><tr><td>Aantal inwoners:</td><td> '+e.features[0].properties.aantal_inwoners+'</td><td></tr><tr><td>Bevolkingsdichtheid (per km2): </td><td> '+e.features[0].properties.bevolkingsdichtheid_inwoners_per_km2+'</td></tr></table>')
+          .setHTML('<table style="width:100%"><tr><th><center><b>Buurt: '+e.features[0].properties.buurtnaam+'</b></center></th></tr><tr><td>Aantal inwoners:</td><td> '+e.features[0].properties.aantal_inwoners+'</td><td></tr><tr><td>Bevolkingsdichtheid (per km2): </td><td> '+e.features[0].properties.bevolkingsdichtheid_inwoners_per_km2+'</td></tr></table>')
           .addTo(window.map);
           var data = [
             {label: "0-14", data: e.features[0].properties.percentage_personen_0_tot_15_jaar},
