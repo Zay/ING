@@ -48,7 +48,7 @@ function loadMap(lat, lng) {
       container: 'map', // container id
       style: 'mapbox://styles/ivo11235/cj40zzvy43klk2rozfylmtc5y', //hosted style id
       center: [lat,lng], // starting position
-      zoom: 14 // starting zoom
+      zoom: 17 // starting zoom
   });
   window.map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken
