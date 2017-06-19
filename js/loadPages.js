@@ -56,7 +56,7 @@ function loadMap(lat, lng) {
 }
 
 function geocodeAddress(Address){
-  var geocodeURL = 'http://nominatim.openstreetmap.org/search?q='+Address+'&polygon=1&addressdetails=1&format=json&limit=1';
+  var geocodeURL = 'https://nominatim.openstreetmap.org/search?q='+Address+'&polygon=1&addressdetails=1&format=json&limit=1';
   console.log(geocodeURL);
   $.ajax({
     url: geocodeURL,
